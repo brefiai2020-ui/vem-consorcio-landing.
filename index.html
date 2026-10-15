@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Qual é a sua próxima conquista? | Vem Consórcio</title>
+  <meta name="description" content="Descubra como planejar seu próximo objetivo com consórcio. Responda a algumas perguntas rápidas e receba uma orientação personalizada." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --papel: #f4f7fb;
+      --branco: #ffffff;
+      --tinta: #0f2a4a;
+      --tinta-2: #3a5070;
+      --tinta-3: #6a7f9c;
+      --linha: #dfe6f0;
+      --azul: #1d4574;
+      --azul-escuro: #112e52;
+      --azul-claro: #8fa8c8;
+      --azul-suave: #e9eff7;
+      --bordo: #7a1e2e;
+      --bordo-claro: #d98a98;
+      --bordo-suave: #f7e9ec;
+      --erro: #b3262e;
+      --serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --sans: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      color: var(--tinta);
+      background: var(--papel);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    [hidden] { display: none !important; }
+    [tabindex="-1"]:focus { outline: none; }
+    :focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; }
+
+    .pagina { max-width: 1120px; margin: 0 auto; padding: 0 28px 24px; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Cabeçalho */
+    .topo { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; }
+    .marca { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+    .marca-logo { width: 30px; height: 30px; border-radius: 9px; background: var(--tinta); display: grid; place-items: center; }
+    .marca-logo svg { width: 18px; height: 18px; }
+    .pontos { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; background: var(--branco); border: 1px solid var(--linha); border-radius: 999px; padding: 7px 14px; }
+
+    /* Progresso */
+    .faixa { display: grid; gap: 8px; padding: 0 0 16px; border-bottom: 1px solid var(--linha); }
+    .progresso { height: 3px; background: var(--linha); border-radius: 3px; overflow: hidden; }
+    .progresso-barra { height: 100%; width: 0; background: var(--azul); transition: width .5s cubic-bezier(.2,.8,.2,1); }
+    .etapa-indicador { margin: 0; font-size: 13px; color: var(--tinta-3); }
+
+    /* Layout em duas colunas no desktop */
+    .corpo { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 20px; flex: 1; }
+    @media (min-width: 960px) {
+      .corpo { grid-template-columns: minmax(0, 1fr) 340px; gap: 72px; align-items: start; }
+    }
+    .palco { position: relative; min-width: 0; }
+    .etapa { display: none; animation: entrar .45s cubic-bezier(.2,.8,.2,1); }
+    .etapa.ativa { display: block; }
+    @keyframes entrar { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* Tela inicial: composição aberta, sem cartão */
+    .etapa-inicio {
+      max-width: 640px; padding: 56px 40px 44px; border-radius: 24px; color: var(--branco);
+      background:
+        linear-gradient(100deg, rgba(15,42,74,.95) 0%, rgba(15,42,74,.84) 50%, rgba(15,42,74,.48) 100%),
+        url("fundo.png") center / cover no-repeat;
+      box-shadow: 0 40px 80px -48px rgba(15,42,74,.6);
+    }
+    .etapa-inicio h1 {
+      font-family: var(--serif); font-weight: 400; font-size: clamp(42px, 6vw, 66px);
+      line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 26px; text-wrap: balance; color: var(--branco);
+    }
+    .etapa-inicio .lead { font-size: 19px; line-height: 1.5; color: #dbe5f2; margin: 0 0 12px; max-width: 34ch; }
+    .etapa-inicio .lead + .lead { color: #b8c7dc; font-size: 16px; }
+
+    .indicadores { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 12px; border-top: 1px solid rgba(255,255,255,.22); padding-top: 24px; }
+    .indicadores li { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; color: var(--branco); }
+    .indicadores svg { width: 18px; height: 18px; color: var(--bordo-claro); flex: none; }
+
+    /* Cartão de cada etapa */
+    .cartao {
+      background: var(--branco); border: 1px solid var(--linha); border-radius: 20px; padding: 24px 28px;
+      box-shadow: 0 1px 0 rgba(12,10,18,.03), 0 32px 60px -40px rgba(12,10,18,.28);
+    }
+    .cartao h2 {
+      font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.4vw, 36px);
+      line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 8px; text-wrap: balance;
+    }
+    .texto { color: var(--tinta-2); font-size: 16px; line-height: 1.6; margin: 0 0 8px; max-width: 60ch; }
+
+    /* Botões */
+    .acoes { display: grid; gap: 8px; margin-top: 18px; justify-items: stretch; }
+    .botao {
+      display: inline-flex; align-items: center; justify-content: center; width: 100%;
+      border: 0; border-radius: 12px; padding: 14px 20px; cursor: pointer;
+      font: 600 16px/1 var(--sans); letter-spacing: -0.005em; color: var(--branco); background: var(--azul);
+      transition: background .2s ease, transform .15s ease;
+    }
+    .botao:hover { background: var(--azul-escuro); }
+    .botao:active { transform: translateY(1px); }
+    .botao:disabled { background: #d5dde8; color: #6a7f9c; cursor: not-allowed; transform: none; }
+    .etapa-inicio .botao { width: auto; padding: 17px 28px; background: var(--branco); color: var(--tinta); }
+    .etapa-inicio .botao:hover { background: var(--azul-suave); }
+    .etapa-inicio .acoes { justify-items: start; }
+    .voltar { background: none; border: 0; color: var(--tinta-3); font: 500 15px var(--sans); cursor: pointer; padding: 8px; justify-self: center; }
+    .voltar:hover { color: var(--tinta); }
+
+    /* Opções selecionáveis */
+    .opcoes { display: grid; gap: 6px; margin-top: 16px; }
+    .opcao {
+      display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; cursor: pointer;
+      background: var(--branco); border: 1px solid var(--linha); border-radius: 12px; padding: 8px 14px;
+      font: 500 16px var(--sans); color: var(--tinta);
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .opcao:hover { border-color: var(--azul-claro); }
+    .opcao:active { transform: scale(.995); }
+    .opcao .icone {
+      width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none;
+      background: var(--papel); color: var(--tinta); transition: background .15s ease, color .15s ease;
+    }
+    .opcao .icone svg { width: 20px; height: 20px; }
+    .opcao .marcador { margin-left: auto; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #b5c2d6; flex: none; }
+    .opcao.selecionada { border-color: var(--azul); background: var(--azul-suave); box-shadow: inset 0 0 0 1px var(--azul); }
+    .opcao.selecionada .icone { background: var(--azul); color: var(--branco); }
+    .opcao.selecionada .marcador { border-color: var(--azul); background: var(--azul); box-shadow: inset 0 0 0 4px var(--branco); }
+
+    /* Resultado */
+    .selo {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+      color: var(--bordo); background: var(--bordo-suave); border-radius: 999px; padding: 6px 14px 6px 8px; margin-bottom: 18px;
+    }
+    .selo svg { width: 18px; height: 18px; }
+    .resumo { margin: 24px 0 0; border-top: 1px solid var(--linha); }
+    .resumo div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--linha); font-size: 15px; }
+    .resumo dt { color: var(--tinta-3); }
+    .resumo dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+    .perfil { margin-top: 24px; padding: 18px 20px; background: var(--papel); border-left: 3px solid var(--bordo); border-radius: 0 12px 12px 0; }
+    .perfil .rotulo-perfil { font-size: 13px; color: var(--tinta-3); margin: 0 0 4px; }
+    .perfil strong { font-family: var(--serif); font-weight: 400; color: var(--bordo); font-size: 28px; letter-spacing: -0.01em; }
+    .perfil p { margin: 6px 0 0; color: var(--tinta-2); line-height: 1.55; }
+    .aviso { font-size: 13px; color: var(--tinta-3); margin: 22px 0 0; line-height: 1.55; }
+
+    /* Formulário */
+    form { margin-top: 24px; }
+    .campo { margin-bottom: 16px; }
+    .campo label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .campo input, .campo select {
+      width: 100%; font: 400 16px var(--sans); padding: 13px 14px; color: var(--tinta);
+      background: var(--branco); border: 1px solid #c9d3e2; border-radius: 10px;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .campo input:focus, .campo select:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 4px rgba(29,69,116,.16); }
+    .campo.invalido input { border-color: var(--erro); }
+    .erro { color: var(--erro); font-size: 13px; margin-top: 6px; min-height: 0; }
+    .linha-dupla { display: grid; grid-template-columns: 1fr 104px; gap: 12px; }
+    .consentimento { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--tinta-2); margin: 14px 0 6px; line-height: 1.5; cursor: pointer; }
+    .consentimento input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--azul); flex: none; }
+    .consentimento a { color: var(--azul); font-weight: 600; }
+    .alerta-geral { display: none; background: #fdf1f1; color: var(--erro); border: 1px solid #f3c9cb; border-radius: 10px; padding: 12px 14px; font-size: 14px; margin-top: 12px; }
+    .alerta-geral.visivel { display: block; }
+
+    /* Confirmação */
+    .confirmacao { padding: 4px 0; }
+    .confirmacao .marca-ok {
+      width: 56px; height: 56px; border-radius: 16px; background: var(--azul); color: var(--branco);
+      display: grid; place-items: center; margin-bottom: 24px;
+    }
+    .confirmacao .marca-ok svg { width: 28px; height: 28px; }
+    .destaque { color: var(--bordo); font-weight: 500; background: var(--bordo-suave); border-radius: 10px; padding: 12px 14px; margin: 18px 0 0; font-size: 15px; line-height: 1.5; }
+
+    /* Planilha de planejamento (painel escuro que se preenche com as respostas) */
+    .planilha {
+      display: none; position: sticky; top: 24px; background: var(--tinta); color: #eef3fb;
+      border-radius: 20px; padding: 20px 24px;
+    }
+    @media (min-width: 960px) { .planilha { display: block; } }
+    .planilha-topo {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+      padding-bottom: 16px; border-bottom: 1px solid #22395a; font-size: 13px; color: #9fb0c8;
+    }
+    .planilha-topo strong { font-family: var(--serif); font-weight: 400; font-size: 20px; color: var(--branco); }
+    .planilha-linhas { margin: 0; }
+    .planilha-linhas .linha {
+      display: grid; grid-template-columns: 14px 1fr; column-gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid #22395a;
+    }
+    .planilha-linhas .linha::before {
+      content: ""; grid-column: 1; grid-row: 1 / span 2; width: 8px; height: 8px; margin-top: 6px;
+      border-radius: 50%; background: #2a4670;
+    }
+    .planilha-linhas .linha.preenchida::before { background: var(--bordo-claro); }
+    .planilha-linhas dt { grid-column: 2; font-size: 13px; color: #9fb0c8; }
+    .planilha-linhas dd { grid-column: 2; margin: 4px 0 0; font-size: 16px; font-weight: 500; color: var(--branco); font-variant-numeric: tabular-nums; }
+    .planilha-linhas dd.vazio { color: #5b6f8c; font-weight: 400; }
+
+    /* Rodapé */
+    .rodape { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--linha); font-size: 13px; color: var(--tinta-3); line-height: 1.6; max-width: 72ch; }
+    .rodape a { color: var(--tinta-2); font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .pagina { padding: 0 20px 40px; }
+      .cartao { padding: 26px 22px; border-radius: 16px; }
+      .etapa-inicio h1 { font-size: 42px; }
+      .etapa-inicio .lead { font-size: 17px; }
+      .linha-dupla { grid-template-columns: 1fr 96px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="pagina">
+    <header class="topo">
+      <div class="marca">
+        <span class="marca-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#e9b8c1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 9.5 11.5l3.5 3.5L20 7.5"/><path d="M15 7.5h5v5"/></svg>
+        </span>
+        Vem Consórcio
+      </div>
+      <div class="pontos" id="pontos" aria-live="polite">0 pts</div>
+    </header>
+
+    <div class="faixa">
+      <div class="progresso" role="progressbar" aria-label="Progresso do desafio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progresso-barra" id="barra"></div>
+      </div>
+      <p class="etapa-indicador" id="indicadorEtapa">Início</p>
+    </div>
+
+    <div class="corpo">
+      <main class="palco" id="palco">
+
+        <!-- ETAPA 1: INÍCIO -->
+        <section class="etapa etapa-inicio ativa" data-etapa="inicio" aria-labelledby="t-inicio">
+          <h1 id="t-inicio">Qual é a sua próxima conquista?</h1>
+          <p class="lead">Descubra como planejar seu próximo objetivo com consórcio.</p>
+          <p class="lead">Responda a algumas perguntas rápidas e receba uma orientação personalizada para o seu projeto.</p>
+          <ul class="indicadores">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Experiência rápida</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Planejamento personalizado</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Atendimento especializado</li>
+          </ul>
+          <div class="acoes">
+            <button class="botao" type="button" data-acao="comecar">Começar meu planejamento</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 2: OBJETIVO -->
+        <section class="etapa cartao" data-etapa="objetivo" aria-labelledby="t-objetivo">
+          <h2 id="t-objetivo">O que você deseja conquistar?</h2>
+          <p class="texto">Escolha a opção mais próxima do seu projeto.</p>
+          <div class="opcoes" id="opcoesObjetivo" role="radiogroup" aria-label="Objetivo"></div>
+          <div class="acoes">
+            <button class="botao" type="button" data-acao="avancar" disabled>Continuar</button>
+            <button class="voltar" type="button" data-acao="voltar">Voltar</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 3: CRÉDITO -->
+        <section class="etapa cartao" data-etapa="credito" aria-labelledby="t-credito">
+          <h2 id="t-credito">Qual valor de crédito você está planejando?</h2>
+          <p class="texto">Uma estimativa ajuda a orientar a sua simulação. Você poderá ajustar depois.</p>
+          <div class="opcoes" id="opcoesCredito" role="radiogroup" aria-label="Valor de crédito"></div>
+          <div class="acoes">
+            <button class="botao" type="button" data-acao="avancar" disabled>Continuar</button>
+            <button class="voltar" type="button" data-acao="voltar">Voltar</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 4: PRAZO -->
+        <section class="etapa cartao" data-etapa="prazo" aria-labelledby="t-prazo">
+          <h2 id="t-prazo">Quando você pretende realizar esse objetivo?</h2>
+          <p class="texto">Isso nos ajuda a entender o seu momento. A contemplação depende das regras do grupo e não tem prazo garantido.</p>
+          <div class="opcoes" id="opcoesPrazo" role="radiogroup" aria-label="Prazo"></div>
+          <div class="acoes">
+            <button class="botao" type="button" data-acao="avancar" disabled>Continuar</button>
+            <button class="voltar" type="button" data-acao="voltar">Voltar</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 5: PARCELA -->
+        <section class="etapa cartao" data-etapa="parcela" aria-labelledby="t-parcela">
+          <h2 id="t-parcela">Qual valor de parcela mensal se encaixa melhor no seu planejamento?</h2>
+          <p class="texto">Esta informação não é uma aprovação de crédito. A simulação final usa as condições efetivas do plano.</p>
+          <div class="opcoes" id="opcoesParcela" role="radiogroup" aria-label="Parcela mensal"></div>
+          <div class="acoes">
+            <button class="botao" type="button" data-acao="avancar" disabled>Continuar</button>
+            <button class="voltar" type="button" data-acao="voltar">Voltar</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 6: RESULTADO -->
+        <section class="etapa cartao" data-etapa="resultado" aria-labelledby="t-resultado">
+          <span class="selo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            Desafio concluído
+          </span>
+          <h2 id="t-resultado">Seu próximo objetivo está tomando forma!</h2>
+          <dl class="resumo" id="resumo"></dl>
+          <div class="perfil" id="perfilBox">
+            <p class="rotulo-perfil">Seu perfil de planejamento</p>
+            <strong id="perfilTitulo"></strong>
+            <p id="perfilTexto"></p>
+          </div>
+          <div class="acoes">
+            <button class="botao" type="button" data-acao="ir-captura">Quero minha simulação personalizada</button>
+            <button class="voltar" type="button" data-acao="voltar">Ajustar respostas</button>
+          </div>
+          <p class="aviso">Os perfis são classificações de interesse, não avaliações de capacidade financeira. Não há garantia de contemplação, aprovação de crédito ou prazo para aquisição do bem.</p>
+        </section>
+
+        <!-- ETAPA 7: CAPTURA -->
+        <section class="etapa cartao" data-etapa="captura" aria-labelledby="t-captura">
+          <h2 id="t-captura">Vamos dar o próximo passo?</h2>
+          <p class="texto">Informe seus dados para que nossa equipe possa entrar em contato e orientar você.</p>
+          <form id="formLead" novalidate>
+            <div class="campo" id="campoNome">
+              <label for="nome">Nome completo</label>
+              <input id="nome" name="nome" type="text" autocomplete="name" required />
+              <div class="erro" data-erro-para="nome"></div>
+            </div>
+            <div class="campo" id="campoWhats">
+              <label for="whatsapp">WhatsApp com DDD</label>
+              <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(41) 99999-9999" required />
+              <div class="erro" data-erro-para="whatsapp"></div>
+            </div>
+            <div class="campo" id="campoEmail">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+              <div class="erro" data-erro-para="email"></div>
+            </div>
+            <div class="linha-dupla">
+              <div class="campo" id="campoCidade">
+                <label for="cidade">Cidade</label>
+                <input id="cidade" name="cidade" type="text" autocomplete="address-level2" />
+                <div class="erro" data-erro-para="cidade"></div>
+              </div>
+              <div class="campo">
+                <label for="uf">UF</label>
+                <select id="uf" name="uf">
+                  <option value="">—</option>
+                  <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
+                </select>
+              </div>
+            </div>
+
+            <label class="consentimento">
+              <input type="checkbox" id="consentimentoDados" required />
+              <span>Li e concordo com o tratamento dos meus dados pessoais para contato sobre consórcio, conforme a <a href="#politica-de-privacidade" target="_blank" rel="noopener" id="linkPrivacidade">Política de Privacidade</a>.</span>
+            </label>
+            <div class="erro" data-erro-para="consentimentoDados" style="margin:0 0 10px"></div>
+
+            <label class="consentimento">
+              <input type="checkbox" id="consentimentoMarketing" />
+              <span>Aceito receber novidades e conteúdos sobre consórcio por WhatsApp e e-mail (opcional).</span>
+            </label>
+
+            <div class="alerta-geral" id="alertaGeral" role="alert"></div>
+
+            <div class="acoes">
+              <button class="botao" type="submit" id="btnEnviar">Receber minha orientação</button>
+              <button class="voltar" type="button" data-acao="voltar">Voltar</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ETAPA 8: CONFIRMAÇÃO -->
+        <section class="etapa cartao" data-etapa="obrigado" aria-labelledby="t-obrigado">
+          <div class="confirmacao">
+            <div class="marca-ok" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            </div>
+            <h2 id="t-obrigado">Recebemos seus dados!</h2>
+            <p class="texto" id="textoObrigado">Nossa equipe vai entrar em contato pelo WhatsApp informado para orientar você sobre a sua simulação personalizada.</p>
+            <p class="destaque" id="avisoPendente" hidden>Seus dados foram guardados com segurança neste aparelho e serão enviados assim que a conexão for restabelecida.</p>
+          </div>
+        </section>
+      </main>
+
+      <aside class="planilha" aria-label="Resumo do seu planejamento">
+        <div class="planilha-topo">
+          <strong>Seu planejamento</strong>
+          <span id="planilhaStatus">Aguardando respostas</span>
+        </div>
+        <dl class="planilha-linhas" id="planilhaLinhas"></dl>
+      </aside>
+    </div>
+
+    <footer class="rodape">
+      Consórcio é uma forma de planejamento de compra. A contemplação depende das regras do grupo, de sorteio ou lance, conforme o contrato. Participar desta experiência não garante contemplação.
+      <br />
+      <a href="#politica-de-privacidade" id="linkRodape">Política de Privacidade</a>
+    </footer>
+  </div>
+
+  <script>
+// Configuração da landing page de captação de leads de consórcio (Vem Consórcio).
+// Edite este arquivo para trocar faixas, textos de perfil e integrações
+// sem precisar mexer na estrutura da página.
+
+window.LANDING_CONFIG = {
+  // Endpoint que recebe os leads (ex.: função serverless ou Edge Function do Supabase).
+  // Deixe vazio enquanto a integração não estiver configurada: os leads ficam
+  // em uma fila local (localStorage) e são reenviados quando o endpoint existir.
+  // NÃO coloque chaves privadas aqui.
+  leadEndpoint: "https://hghhmodyvutwhimeihwq.supabase.co/functions/v1/form-submit",
+
+  // Quando preenchido, o envio usa o contrato da função `form-submit` da Roleta de Leads.
+  // `leadFormSlug` é o slug de um formulário criado na tela Formularios da Roleta
+  // (ex.: "vem-consorcio"). Sem ele, o lead é enviado no formato próprio desta landing.
+  // Exemplo de endpoint: https://<ref-do-projeto>.supabase.co/functions/v1/form-submit
+  leadFormSlug: "vem-consorcio",
+
+  // Origem padrão quando a página não recebe UTM.
+  defaultSource: "landing-consorcio",
+
+  // Link da política de privacidade (preencher com a URL oficial).
+  privacyPolicyUrl: "#politica-de-privacidade",
+
+  // Faixas de crédito por objetivo (valores em reais).
+  // Ajuste livremente; a página lê estes valores.
+  creditRanges: [
+    { id: "ate-50k", label: "Até R$ 50 mil", min: 0, max: 50000 },
+    { id: "50-100k", label: "De R$ 50 mil a R$ 100 mil", min: 50000, max: 100000 },
+    { id: "100-200k", label: "De R$ 100 mil a R$ 200 mil", min: 100000, max: 200000 },
+    { id: "200-400k", label: "De R$ 200 mil a R$ 400 mil", min: 200000, max: 400000 },
+    { id: "acima-400k", label: "Acima de R$ 400 mil", min: 400000, max: null }
+  ],
+
+  // Faixas de parcela mensal.
+  installmentRanges: [
+    { id: "ate-500", label: "Até R$ 500" },
+    { id: "500-1000", label: "De R$ 500 a R$ 1.000" },
+    { id: "1000-2000", label: "De R$ 1.000 a R$ 2.000" },
+    { id: "2000-4000", label: "De R$ 2.000 a R$ 4.000" },
+    { id: "acima-4000", label: "Acima de R$ 4.000" },
+    { id: "nao-sei", label: "Ainda não sei" },
+    { id: "nao-informar", label: "Prefiro não informar" }
+  ],
+
+  // Prazos pretendidos.
+  timingOptions: [
+    { id: "3m", label: "Nos próximos 3 meses", urgency: "alta" },
+    { id: "3-6m", label: "Entre 3 e 6 meses", urgency: "alta" },
+    { id: "6-12m", label: "Entre 6 e 12 meses", urgency: "media" },
+    { id: "12m+", label: "Daqui a mais de 12 meses", urgency: "baixa" },
+    { id: "planejando", label: "Ainda estou planejando", urgency: "baixa" }
+  ],
+
+  // Regras de prioridade comercial (editáveis).
+  // Alta: objetivo + prazo de até 6 meses.
+  // Média: objetivo definido, prazo de 6 a 12 meses ou ainda planejando com parcela informada.
+  // Nutrição: demais casos.
+  priorityRules: {
+    high: { timingUrgencies: ["alta"] },
+    medium: { timingUrgencies: ["media"], alsoIfInstallmentKnown: true }
+  },
+
+  // Perfis de planejamento (classificação de interesse, não de capacidade financeira).
+  profiles: {
+    explorador: {
+      title: "Explorador",
+      text: "Você está conhecendo as possibilidades do consórcio. Um especialista pode mostrar os caminhos com calma."
+    },
+    planejador: {
+      title: "Planejador",
+      text: "Você está estruturando sua conquista. Vamos ajustar crédito, prazo e parcela ao seu momento."
+    },
+    focado: {
+      title: "Focado",
+      text: "Você já tem objetivo e prazo definidos. Podemos avançar direto para uma simulação personalizada."
+    }
+  },
+
+  // Eventos de analytics: se window.gtag ou window.dataLayer existirem, os eventos são enviados.
+  analyticsEvents: true
+};
+
+</script>
+  <script>
+  (function () {
+    "use strict";
+
+    var CFG = window.LANDING_CONFIG || {};
+    var ETAPAS = ["inicio", "objetivo", "credito", "prazo", "parcela", "resultado", "captura", "obrigado"];
+    var ROTULOS = {
+      inicio: "Início", objetivo: "Etapa 1 de 5", credito: "Etapa 2 de 5", prazo: "Etapa 3 de 5",
+      parcela: "Etapa 4 de 5", resultado: "Etapa 5 de 5", captura: "Quase lá", obrigado: "Concluído"
+    };
+
+    // Ícones em traço (SVG inline, sem bibliotecas externas)
+    var DESENHO = {
+      casa: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+      carro: '<path d="M5 16.5V12l2.2-5h9.6L19 12v4.5"/><path d="M3 12h18"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
+      sofa: '<path d="M4 11V8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5V11"/><path d="M2.5 13a2 2 0 0 1 4 0v2h11v-2a2 2 0 0 1 4 0v4.5h-19z"/><path d="M5.5 17.5V19M18.5 17.5V19"/>',
+      predio: '<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h1.5M13.5 7H15M9 11h1.5M13.5 11H15M9 15h1.5M13.5 15H15M10.5 21v-3h3v3"/>',
+      alvo: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',
+      raio: '<path d="M13 2 4.5 14H12l-1 8 8.5-12H12z"/>',
+      calendario: '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+      ampulheta: '<path d="M6 2.5h12M6 21.5h12"/><path d="M7 2.5c0 5 10 5 10 9.5S7 16.5 7 21.5M17 2.5c0 5-10 5-10 9.5s10 4.5 10 9.5"/>',
+      bussola: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+      moedas: '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+      recibo: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>'
+    };
+    function ic(nome) {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + DESENHO[nome] + '</svg>';
+    }
+
+    var OBJETIVOS = [
+      { id: "imovel", label: "Comprar um imóvel", icone: ic("casa") },
+      { id: "veiculo", label: "Comprar um carro ou veículo", icone: ic("carro") },
+      { id: "reforma", label: "Reformar ou mobiliar", icone: ic("sofa") },
+      { id: "investimento-imovel", label: "Investir em imóveis", icone: ic("predio") },
+      { id: "outro", label: "Outro objetivo", icone: ic("alvo") }
+    ];
+    var ICONES_PRAZO = {
+      "3m": ic("raio"), "3-6m": ic("calendario"), "6-12m": ic("ampulheta"), "12m+": ic("alvo"), "planejando": ic("bussola")
+    };
+    var ICONE_CREDITO = ic("moedas");
+    var ICONE_PARCELA = ic("recibo");
+
+    var STORAGE_RESPOSTAS = "consorcio_landing_respostas";
+    var STORAGE_FILA = "consorcio_landing_fila";
+    var STORAGE_ENVIO = "consorcio_landing_ultimo_envio";
+
+    var estado = { etapa: "inicio", respostas: {}, pontos: 0, concluidas: {} };
+    var pontosPorEtapa = { objetivo: 10, credito: 10, prazo: 10, parcela: 10, resultado: 20, captura: 40 };
+
+    var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+    var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+
+    // ---------- Persistência temporária (respeita privacidade: só nesta sessão) ----------
+    function salvarSessao() {
+      try { sessionStorage.setItem(STORAGE_RESPOSTAS, JSON.stringify(estado)); } catch (e) { /* armazenamento indisponível */ }
+    }
+    function carregarSessao() {
+      try {
+        var bruto = sessionStorage.getItem(STORAGE_RESPOSTAS);
+        if (bruto) { var s = JSON.parse(bruto); if (s && s.respostas) estado = s; }
+      } catch (e) { /* ignora */ }
+    }
+
+    // ---------- Analytics configurável ----------
+    function evento(nome, dados) {
+      if (!CFG.analyticsEvents) return;
+      try {
+        if (window.gtag) window.gtag("event", nome, dados || {});
+        if (window.dataLayer) window.dataLayer.push(Object.assign({ event: nome }, dados || {}));
+      } catch (e) { /* analytics não pode quebrar a página */ }
+    }
+
+    // ---------- UTM e origem ----------
+    function parametrosOrigem() {
+      var p = new URLSearchParams(window.location.search);
+      var out = { pagina_origem: window.location.pathname || "/", origem: CFG.defaultSource };
+      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) {
+        if (p.get(k)) out[k] = p.get(k).slice(0, 120);
+      });
+      return out;
+    }
+
+    // ---------- Gamificação ----------
+    function atualizarPontos() {
+      $("#pontos").textContent = estado.pontos + " pts";
+    }
+    function ganharPontos(etapa) {
+      if (estado.concluidas[etapa]) return;
+      estado.concluidas[etapa] = true;
+      estado.pontos += pontosPorEtapa[etapa] || 0;
+      atualizarPontos();
+    }
+    function progressoAtual() {
+      var idx = ETAPAS.indexOf(estado.etapa);
+      var total = ETAPAS.length - 2; // ignora "obrigado" no cálculo
+      return Math.min(100, Math.round((idx / total) * 100));
+    }
+
+    // ---------- Navegação entre etapas ----------
+    function mostrarEtapa(nome) {
+      estado.etapa = nome;
+      $$(".etapa").forEach(function (s) { s.classList.toggle("ativa", s.getAttribute("data-etapa") === nome); });
+      var barra = $("#barra");
+      var pct = progressoAtual();
+      barra.style.width = pct + "%";
+      $(".progresso").setAttribute("aria-valuenow", String(pct));
+      $("#indicadorEtapa").textContent = ROTULOS[nome] || "";
+      var alvo = $('.etapa[data-etapa="' + nome + '"] h1, .etapa[data-etapa="' + nome + '"] h2');
+      if (alvo) { alvo.setAttribute("tabindex", "-1"); alvo.focus({ preventScroll: true }); }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      salvarSessao();
+      evento("etapa_visualizada", { etapa: nome });
+    }
+    function proximaEtapa(atual) {
+      var i = ETAPAS.indexOf(atual);
+      return ETAPAS[i + 1];
+    }
+    function etapaAnterior(atual) {
+      var i = ETAPAS.indexOf(atual);
+      return ETAPAS[Math.max(0, i - 1)];
+    }
+
+    // ---------- Montagem das opções ----------
+    function montarOpcoes(containerId, itens, chave, rotuloFn, iconeFn) {
+      var box = $("#" + containerId);
+      box.innerHTML = "";
+      itens.forEach(function (item) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "opcao";
+        b.setAttribute("role", "radio");
+        b.setAttribute("aria-checked", "false");
+        b.dataset.valor = item.id;
+        var icone = iconeFn ? iconeFn(item) : "";
+        b.innerHTML = (icone ? '<span class="icone">' + icone + '</span>' : "") +
+          '<span>' + rotuloFn(item) + '</span><span class="marcador" aria-hidden="true"></span>';
+        b.addEventListener("click", function () { selecionarOpcao(containerId, chave, item.id, b); });
+        box.appendChild(b);
+      });
+      // Marca resposta já salva (ao voltar)
+      if (estado.respostas[chave]) {
+        var ja = box.querySelector('[data-valor="' + estado.respostas[chave] + '"]');
+        if (ja) { ja.classList.add("selecionada"); ja.setAttribute("aria-checked", "true"); }
+      }
+    }
+    function selecionarOpcao(containerId, chave, valor, botao) {
+      $$("#" + containerId + " .opcao").forEach(function (o) {
+        o.classList.remove("selecionada");
+        o.setAttribute("aria-checked", "false");
+      });
+      botao.classList.add("selecionada");
+      botao.setAttribute("aria-checked", "true");
+      estado.respostas[chave] = valor;
+      salvarSessao();
+      atualizarPlanilha();
+      // Habilita o botão "Continuar" da própria etapa
+      var secao = botao.closest(".etapa");
+      $('[data-acao="avancar"]', secao).disabled = false;
+      evento("resposta_selecionada", { pergunta: chave, valor: valor });
+    }
+    function montarTodasOpcoes() {
+      montarOpcoes("opcoesObjetivo", OBJETIVOS, "objetivo", function (o) { return o.label; }, function (o) { return o.icone; });
+      montarOpcoes("opcoesCredito", creditoPorObjetivo(), "credito", function (o) { return o.label; }, function () { return ICONE_CREDITO; });
+      montarOpcoes("opcoesPrazo", CFG.timingOptions || [], "prazo", function (o) { return o.label; }, function (o) { return ICONES_PRAZO[o.id] || ic("calendario"); });
+      montarOpcoes("opcoesParcela", CFG.installmentRanges || [], "parcela", function (o) { return o.label; }, function () { return ICONE_PARCELA; });
+    }
+    // Faixas de crédito configuráveis (o objetivo pode ajustar a exibição)
+    function creditoPorObjetivo() {
+      return (CFG.creditRanges || []).map(function (f) { return { id: f.id, label: f.label }; });
+    }
+
+    // ---------- Planilha lateral: preenche conforme as respostas ----------
+    function atualizarPlanilha() {
+      var r = estado.respostas;
+      var linhas = [
+        ["Objetivo", r.objetivo ? nomeObjetivo(r.objetivo) : null],
+        ["Crédito desejado", r.credito ? rotuloPorId(CFG.creditRanges, r.credito) : null],
+        ["Prazo", r.prazo ? rotuloPorId(CFG.timingOptions, r.prazo) : null],
+        ["Parcela", r.parcela ? rotuloPorId(CFG.installmentRanges, r.parcela) : null]
+      ];
+      var dl = $("#planilhaLinhas");
+      dl.innerHTML = "";
+      var preenchidas = 0;
+      linhas.forEach(function (par) {
+        var div = document.createElement("div");
+        div.className = "linha" + (par[1] ? " preenchida" : "");
+        var dt = document.createElement("dt");
+        dt.textContent = par[0];
+        var dd = document.createElement("dd");
+        dd.textContent = par[1] || "Aguardando";
+        if (!par[1]) dd.className = "vazio"; else preenchidas++;
+        div.appendChild(dt);
+        div.appendChild(dd);
+        dl.appendChild(div);
+      });
+      $("#planilhaStatus").textContent = preenchidas === 4
+        ? "Completo"
+        : (preenchidas ? preenchidas + " de 4 respondidas" : "Aguardando respostas");
+    }
+
+    // ---------- Resultado e perfil ----------
+    function rotuloPorId(lista, id) {
+      var item = (lista || []).filter(function (x) { return x.id === id; })[0];
+      return item ? item.label : "—";
+    }
+    function nomeObjetivo(id) {
+      var o = OBJETIVOS.filter(function (x) { return x.id === id; })[0];
+      return o ? o.label : "—";
+    }
+    function calcularPerfil() {
+      var r = estado.respostas;
+      var urgencia = (CFG.timingOptions || []).filter(function (t) { return t.id === r.prazo; })[0];
+      var temObjetivo = !!r.objetivo;
+      var temPrazo = !!r.prazo && r.prazo !== "planejando";
+      if (temObjetivo && temPrazo && urgencia && urgencia.urgency === "alta") return "focado";
+      if (temObjetivo && (r.prazo || r.credito)) return "planejador";
+      return "explorador";
+    }
+    function montarResultado() {
+      var r = estado.respostas;
+      var dl = $("#resumo");
+      dl.innerHTML = "";
+      [
+        ["Objetivo", nomeObjetivo(r.objetivo)],
+        ["Crédito desejado", rotuloPorId(CFG.creditRanges, r.credito)],
+        ["Prazo pretendido", rotuloPorId(CFG.timingOptions, r.prazo)],
+        ["Parcela indicada", rotuloPorId(CFG.installmentRanges, r.parcela)]
+      ].forEach(function (par) {
+        var div = document.createElement("div");
+        div.innerHTML = "<dt></dt><dd></dd>";
+        div.querySelector("dt").textContent = par[0];
+        div.querySelector("dd").textContent = par[1];
+        dl.appendChild(div);
+      });
+      var perfilId = calcularPerfil();
+      estado.perfil = perfilId;
+      var p = (CFG.profiles || {})[perfilId] || { title: "", text: "" };
+      $("#perfilTitulo").textContent = p.title;
+      $("#perfilTexto").textContent = p.text;
+    }
+
+    // ---------- Pontuação de engajamento ----------
+    function pontuacaoEngajamento() {
+      return estado.pontos;
+    }
+
+    // ---------- Validação do formulário ----------
+    function mascararTelefone(valor) {
+      var d = valor.replace(/\D/g, "").slice(0, 11);
+      if (d.length <= 2) return d ? "(" + d : "";
+      if (d.length <= 6) return "(" + d.slice(0, 2) + ") " + d.slice(2);
+      if (d.length <= 10) return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
+      return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+    }
+    function marcarErro(campoId, mensagem) {
+      var campo = $("#" + campoId);
+      var box = $('[data-erro-para="' + campoId + '"]');
+      if (campo && campo.closest) { var wrap = campo.closest(".campo"); if (wrap) wrap.classList.toggle("invalido", !!mensagem); }
+      if (box) box.textContent = mensagem || "";
+      return !mensagem;
+    }
+    function validarFormulario() {
+      var ok = true;
+      var nome = $("#nome").value.trim();
+      var whats = $("#whatsapp").value.replace(/\D/g, "");
+      var email = $("#email").value.trim();
+      var consent = $("#consentimentoDados").checked;
+
+      ok = marcarErro("nome", nome.split(/\s+/).length < 2 ? "Informe nome e sobrenome." : "") && ok;
+      ok = marcarErro("whatsapp", (whats.length < 10 || whats.length > 11) ? "Informe um WhatsApp válido com DDD." : "") && ok;
+      ok = marcarErro("email", !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? "Informe um e-mail válido." : "") && ok;
+      var box = $('[data-erro-para="consentimentoDados"]');
+      if (!consent) { box.textContent = "Para receber sua orientação, é preciso aceitar o tratamento dos dados."; ok = false; }
+      else { box.textContent = ""; }
+      $("#consentimentoDados").closest(".consentimento").style.color = consent ? "" : "var(--erro)";
+      return ok;
+    }
+
+    // ---------- Registro do lead ----------
+    function classificarLead(r) {
+      var t = (CFG.timingOptions || []).filter(function (x) { return x.id === r.prazo; })[0];
+      var urg = t ? t.urgency : "baixa";
+      var rules = CFG.priorityRules || {};
+      var alta = (rules.high && rules.high.timingUrgencies || []).indexOf(urg) >= 0;
+      var media = (rules.medium && rules.medium.timingUrgencies || []).indexOf(urg) >= 0;
+      if (alta && r.objetivo) return "alta";
+      if (media && r.objetivo) return "media";
+      if (r.objetivo && r.parcela && r.parcela !== "nao-sei" && r.parcela !== "nao-informar" && rules.medium && rules.medium.alsoIfInstallmentKnown) return "media";
+      return "nutricao";
+    }
+    function montarLead(form) {
+      var r = estado.respostas;
+      var origem = parametrosOrigem();
+      return {
+        id: gerarId(),
+        nome: form.nome,
+        telefone: form.whatsapp.replace(/\D/g, ""),
+        email: form.email,
+        cidade: form.cidade || null,
+        uf: form.uf || null,
+        objetivo: r.objetivo || null,
+        faixa_credito: r.credito || null,
+        prazo: r.prazo || null,
+        faixa_parcela: r.parcela || null,
+        perfil_planejamento: estado.perfil || null,
+        pontuacao_engajamento: pontuacaoEngajamento(),
+        prioridade: classificarLead(r),
+        situacao: "novo",
+        consultor_responsavel: null,
+        consentimentos: {
+          tratamento_dados: true,
+          marketing: !!form.marketing,
+          versao_politica: "a-definir"
+        },
+        origem: origem,
+        criado_em: new Date().toISOString()
+      };
+    }
+    function gerarId() {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
+    }
+
+    function lerFila() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_FILA) || "[]"); } catch (e) { return []; }
+    }
+    function gravarFila(fila) {
+      try { localStorage.setItem(STORAGE_FILA, JSON.stringify(fila)); } catch (e) { /* ignora */ }
+    }
+
+    // Converte o lead para o contrato da função form-submit da Roleta de Leads.
+    // Respostas de qualificação vão em `extra`, que a função recebe.
+    function valorDeCredito(id) {
+      var f = (CFG.creditRanges || []).filter(function (x) { return x.id === id; })[0];
+      if (!f) return null;
+      if (f.max == null) return f.min;
+      return Math.round((f.min + f.max) / 2);
+    }
+    function interesseDoObjetivo(obj) {
+      return { imovel: "imovel", veiculo: "veiculo", reforma: "servicos", "investimento-imovel": "imovel", outro: "outros" }[obj] || "outros";
+    }
+    function paraFormSubmit(lead) {
+      var o = lead.origem || {};
+      return {
+        slug: CFG.leadFormSlug,
+        name: lead.nome,
+        phone: lead.telefone,
+        email: lead.email || null,
+        city: lead.cidade || null,
+        state: lead.uf || null,
+        desired_value: valorDeCredito(lead.faixa_credito),
+        interest_type: interesseDoObjetivo(lead.objetivo),
+        utm_source: o.utm_source || null,
+        utm_medium: o.utm_medium || null,
+        utm_campaign: o.utm_campaign || null,
+        extra: {
+          idempotency_key: lead.id,
+          objetivo: lead.objetivo,
+          faixa_credito: lead.faixa_credito,
+          prazo: lead.prazo,
+          faixa_parcela: lead.faixa_parcela,
+          perfil_planejamento: lead.perfil_planejamento,
+          pontuacao_engajamento: lead.pontuacao_engajamento,
+          prioridade: lead.prioridade,
+          consentimentos: lead.consentimentos,
+          pagina_origem: o.pagina_origem,
+          criado_em: lead.criado_em
+        }
+      };
+    }
+
+    // Envia leads; nunca descarta: qualquer falha mantém o registro na fila.
+    function enviarLead(lead) {
+      var fila = lerFila();
+      // Idempotência: evita duplicar o mesmo registro na fila
+      if (!fila.some(function (l) { return l.id === lead.id; })) fila.push(lead);
+      gravarFila(fila);
+      return processarFila();
+    }
+    function processarFila() {
+      var fila = lerFila();
+      if (!CFG.leadEndpoint) {
+        // Integração não configurada: mantém na fila local.
+        return Promise.resolve({ enviado: false, motivo: "endpoint-nao-configurado" });
+      }
+      var pendentes = fila.slice();
+      return Promise.all(pendentes.map(function (lead) {
+        return fetch(CFG.leadEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(CFG.leadFormSlug ? paraFormSubmit(lead) : lead),
+          keepalive: true
+        }).then(function (res) {
+          if (res.ok || res.status === 409) return lead.id; // 409 = já recebido
+          return null;
+        }).catch(function () { return null; });
+      })).then(function (ids) {
+        var enviados = ids.filter(Boolean);
+        var restantes = lerFila().filter(function (l) { return enviados.indexOf(l.id) < 0; });
+        gravarFila(restantes);
+        return { enviado: restantes.length === 0, motivo: restantes.length ? "falha-envio" : null };
+      });
+    }
+
+    // ---------- Eventos da interface ----------
+    document.addEventListener("click", function (ev) {
+      var btn = ev.target.closest("[data-acao]");
+      if (!btn || btn.disabled) return;
+      var acao = btn.getAttribute("data-acao");
+      var atual = estado.etapa;
+
+      if (acao === "comecar") {
+        mostrarEtapa("objetivo");
+        evento("desafio_iniciado");
+      } else if (acao === "avancar") {
+        var ch = { objetivo: "objetivo", credito: "credito", prazo: "prazo", parcela: "parcela" }[atual];
+        if (ch && !estado.respostas[ch]) return;
+        ganharPontos(atual);
+        var prox = proximaEtapa(atual);
+        if (prox === "resultado") montarResultado();
+        mostrarEtapa(prox);
+      } else if (acao === "voltar") {
+        mostrarEtapa(etapaAnterior(atual));
+      } else if (acao === "ir-captura") {
+        ganharPontos("resultado");
+        mostrarEtapa("captura");
+        evento("captura_iniciada", { perfil: estado.perfil });
+      }
+    });
+
+    // Habilita "Continuar" nas etapas que já têm resposta (ao voltar)
+    function sincronizarBotoes() {
+      ["objetivo", "credito", "prazo", "parcela"].forEach(function (chave) {
+        var secao = $('.etapa[data-etapa="' + chave + '"]');
+        if (secao) $('[data-acao="avancar"]', secao).disabled = !estado.respostas[chave];
+      });
+    }
+
+    $("#whatsapp").addEventListener("input", function (e) {
+      e.target.value = mascararTelefone(e.target.value);
+    });
+
+    var enviando = false; // proteção contra envios duplicados
+    $("#formLead").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      if (enviando) return;
+      $("#alertaGeral").classList.remove("visivel");
+      if (!validarFormulario()) {
+        var alerta = $("#alertaGeral");
+        alerta.textContent = "Confira os campos destacados em vermelho para enviar.";
+        alerta.classList.add("visivel");
+        var primeiro = document.querySelector("#formLead .campo.invalido input") ||
+          (!$("#consentimentoDados").checked ? $("#consentimentoDados") : null);
+        if (primeiro) primeiro.focus();
+        return;
+      }
+
+      // Evita reenvio do mesmo lead dentro de 60s
+      try {
+        var ultimo = parseInt(localStorage.getItem(STORAGE_ENVIO) || "0", 10);
+        if (Date.now() - ultimo < 60000) { mostrarEtapa("obrigado"); return; }
+      } catch (e) { /* ignora */ }
+
+      enviando = true;
+      var btn = $("#btnEnviar");
+      btn.disabled = true;
+      btn.textContent = "Enviando…";
+
+      var dados = {
+        nome: $("#nome").value.trim(),
+        whatsapp: $("#whatsapp").value,
+        email: $("#email").value.trim(),
+        cidade: $("#cidade").value.trim(),
+        uf: $("#uf").value,
+        marketing: $("#consentimentoMarketing").checked
+      };
+      var lead = montarLead(dados);
+
+      enviarLead(lead).then(function (res) {
+        try { localStorage.setItem(STORAGE_ENVIO, String(Date.now())); } catch (e) { /* ignora */ }
+        evento("lead_enviado", { prioridade: lead.prioridade, perfil: lead.perfil_planejamento });
+        if (res.enviado) {
+          $("#avisoPendente").hidden = true;
+        } else {
+          $("#avisoPendente").hidden = false;
+          evento("lead_pendente", { motivo: res.motivo });
+        }
+        ganharPontos("captura");
+        mostrarEtapa("obrigado");
+      }).catch(function () {
+        // Mesmo com erro de rede, o lead já está na fila local e não se perde.
+        $("#avisoPendente").hidden = false;
+        mostrarEtapa("obrigado");
+      }).finally(function () {
+        enviando = false;
+        btn.disabled = false;
+        btn.textContent = "Receber minha orientação";
+      });
+    });
+
+    // ---------- Inicialização ----------
+    carregarSessao();
+    montarTodasOpcoes();
+    atualizarPontos();
+    atualizarPlanilha();
+    sincronizarBotoes();
+    // Reenvia leads pendentes de visitas anteriores, se o endpoint já existir
+    if (lerFila().length) processarFila();
+    mostrarEtapa(ETAPAS.indexOf(estado.etapa) >= 0 ? estado.etapa : "inicio");
+    evento("pagina_visualizada", parametrosOrigem());
+  })();
+  </script>
+</body>
+</html>
